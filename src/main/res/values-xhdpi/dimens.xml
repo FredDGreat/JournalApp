@@ -1,0 +1,18 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="circle_spacing_margin">12dp</dimen>
+    <dimen name="app_name_letter_size">26sp</dimen>
+    <dimen name="round_size">64dp</dimen>
+    <dimen name="logo_width">144dp</dimen>
+    <dimen name="logo_height">110dp</dimen>
+    <dimen name="logo_margin_top">24dp</dimen>
+    <dimen name="google_sign_in_letter_size">15sp</dimen>
+    <dimen name="button_padding">8dp</dimen>
+    <dimen name="form_top_margin">55dp</dimen>
+    <dimen name="body_margin">32dp</dimen>
+    <dimen name="nav_header_height">120dp</dimen>
+    <dimen name="item_spacing">20dp</dimen>
+    <dimen name="item_spacing2">16dp</dimen>
+    <dimen name="pill_icon_width">27dp</dimen>
+    <dimen name="pill_icon_height">54dp</dimen>
+</resources>

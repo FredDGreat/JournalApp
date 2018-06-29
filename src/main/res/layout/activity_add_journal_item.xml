@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <!--<android.support.v7.widget.AppCompatTextView
+            android:id="@+id/addBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="18dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/btn_selector"
+            android:gravity="bottom"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="Add"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#fff" />-->
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="48dp"
+        android:layout_marginTop="48dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:id="@+id/addBtnBg"
+        android:background="@drawable/round_rect_selector"
+        >
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_rect_selector"
+            android:textAlignment="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/addBtn"
+            android:text="Add"
+            android:textColor="@color/colorPrimary"
+            />
+    </RelativeLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/addBtnBg">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="Title"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="normal" />
+
+                <!--<android.support.design.widget.TextInputLayout
+                    android:id="@+id/nameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.design.widget.TextInputLayout>-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:hint="Give it a name"
+                        android:inputType="textCapWords"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#ee565656"
+                        android:textColorHint="#dd565656"
+                        android:visibility="visible"
+                        app:backgroundTint="#b8d1ef" />
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/plainName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="9dp"
+                        android:padding="4dp"
+                        android:text="Give it a name"
+                        android:inputType="textLongMessage|textCapSentences"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#ee565656"
+                        android:textColorHint="#dd565656"
+                        android:visibility="gone"
+                        app:backgroundTint="#b8d1ef" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/noteLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Journal Note"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="normal" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="@dimen/item_spacing2"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:hint="Write here"
+                        android:inputType="textLongMessage|textCapSentences"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#ee565656"
+                        android:textColorHint="#dd565656"
+                        android:visibility="visible"
+                        app:backgroundTint="#b8d1ef" />
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/plainNote"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="9dp"
+                        android:padding="4dp"
+                        android:text="write here"
+                        android:inputType="textLongMessage|textCapSentences"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#ee565656"
+                        android:textColorHint="#dd565656"
+                        android:visibility="gone"
+                        app:backgroundTint="#b8d1ef" />
+                </RelativeLayout>
+n
+            </LinearLayout>
+        </ScrollView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:id="@+id/infoTextBg"
+            android:background="#dd222222"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/infoText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="12dp"
+                android:padding="4dp"
+                android:text="Touch the text to edit"
+                android:inputType="textLongMessage|textCapSentences"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#eeffffff"
+                android:textColorHint="#dd565656"
+                app:backgroundTint="#b8d1ef" />
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

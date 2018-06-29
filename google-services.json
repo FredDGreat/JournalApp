@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "231264629151",
+    "firebase_url": "https://journalapp-de414.firebaseio.com",
+    "project_id": "journalapp-de414",
+    "storage_bucket": "journalapp-de414.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231264629151:android:9f8b60c37cd5a59f",
+        "android_client_info": {
+          "package_name": "com.ftech.journalapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231264629151-n7aplql65hfckuanp2okikgqp2kv6h1n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ftech.journalapp",
+            "certificate_hash": "608c9e77f979b712513cbdd3bb4a556bb757a757"
+          }
+        },
+        {
+          "client_id": "231264629151-pv08928rbaqlcs926dj3uon2f1va67gs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhFSz54W_9vYcPBcN_d0zz6uHL18v4EcA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231264629151-pv08928rbaqlcs926dj3uon2f1va67gs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

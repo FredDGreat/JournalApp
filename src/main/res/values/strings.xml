@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">JournalApp</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="search_hint">Search medication</string>
+    <string name="data_info">No medical\ndata found\ncreate one below</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="option_select">0</string>
+
+    <string-array name="am_array">
+        <item>0</item>
+        <item>12am</item>
+        <item>1am</item>
+        <item>2am</item>
+        <item>3am</item>
+        <item>4am</item>
+        <item>5am</item>
+        <item>6am</item>
+        <item>7am</item>
+        <item>8am</item>
+        <item>9am</item>
+        <item>10am</item>
+        <item>11am</item>
+    </string-array>
+    <string-array name="pm_array">
+        <item>0</item>
+        <item>12pm</item>
+        <item>1pm</item>
+        <item>2pm</item>
+        <item>3pm</item>
+        <item>4pm</item>
+    </string-array>
+    <string-array name="pm_array2">
+        <item>0</item>
+        <item>5pm</item>
+        <item>6pm</item>
+        <item>7pm</item>
+        <item>8pm</item>
+        <item>9pm</item>
+        <item>10pm</item>
+        <item>11pm</item>
+    </string-array>
+</resources>

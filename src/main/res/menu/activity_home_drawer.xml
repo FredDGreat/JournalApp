@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+            <!--<item
+                android:id="@+id/app_lock"
+                android:icon="@mipmap/ic_lock_outline"
+                android:title="Lock apps" />
+            &lt;!&ndash;<item
+                android:id="@+id/nav_sub2"
+                android:icon="@drawable/ic_menu_subscribe"
+                android:title="App Lock" />&ndash;&gt;
+            <item
+                android:id="@+id/vault"
+                android:icon="@mipmap/ic_lock_outline"
+                android:title="Vault" />
+            <item
+                android:id="@+id/rate_us"
+                android:icon="@mipmap/ic_star_rate"
+                android:title="Rate Us" />-->
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@mipmap/ic_share"
+            android:title="Share" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@mipmap/ic_exit"
+            android:title="Logout" />
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@mipmap/ic_remove"
+            android:title="Exit" />
+    </group>
+
+</menu>
