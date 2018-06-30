@@ -2,7 +2,6 @@ package com.ftech.journalapp;
 
 import android.animation.ObjectAnimator;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -23,13 +22,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
+/**
+ * This class is used to put down notes, saves them in a database and at the same time can still be used to update/edit an existing note in the database
+ */
 public class JournalNoteActivity extends AppCompatActivity implements View.OnClickListener{
 
-    //medicine name and description textViews
-    AppCompatEditText mName,mDesc;
+    //title and its note AppCompatTextView
+    AppCompatEditText mTitle, mNote;
     //the add button
     AppCompatTextView mAddBtn;
     TextView mNoteLabel;
@@ -37,16 +37,19 @@ public class JournalNoteActivity extends AppCompatActivity implements View.OnCli
     private boolean saved;
     private SharedPreferences mPref;
     private int mItemId;
-    private String color;
-    //individual item's icon color
-    String[] colorArray = {"#9c0a90","#f64c74","#20d2cc","#4495ff","#6145a3","#d11515",
+    private String mColor;
+    //individual item's icon mColor
+    String[] mColorArray = {"#9c0a90","#f64c74","#20d2cc","#4495ff","#6145a3","#d11515",
             "#d1395c","#FF081453","#FF530841","#FF530812","#FF0B4E42","#FF027594"};//d1395c
     //--------
     //layout for direction on how to enter edit mode
     private RelativeLayout mInfoTextBg;
     //check the height. It will be used for animating the view
     private int mInfoTextHeight;
-
+    //declare variables that will help check when the title and the note are edited by storing their initial values,
+    //which will be used to compare them when the Update button is pressed
+    private StringBuilder mOldTitle,mOldNote;
+    private boolean isTitleEdited,isNoteEdited;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +66,8 @@ public class JournalNoteActivity extends AppCompatActivity implements View.OnCli
             }
         });
         //--------Initialize the name and description of the journal
-        mName = (AppCompatEditText)findViewById(R.id.name);
-        mDesc = (AppCompatEditText)findViewById(R.id.note);
+        mTitle = (AppCompatEditText)findViewById(R.id.name);
+        mNote = (AppCompatEditText)findViewById(R.id.note);
         //
         mNoteLabel = (TextView) findViewById(R.id.noteLabel);
         //----------------
@@ -88,11 +91,15 @@ public class JournalNoteActivity extends AppCompatActivity implements View.OnCli
         if(mPref.getBoolean("edit_mode",false)){
             String title = getIntent().getStringExtra(Constants.TITLE);
             String desc = getIntent().getStringExtra(Constants.DESC);
-            color = getIntent().getStringExtra(Constants.COLOR);
+            mColor = getIntent().getStringExtra(Constants.COLOR);
             mItemId = getIntent().getIntExtra(Constants.ID,-1);
             setTitle("Update");
-            mName.setVisibility(View.GONE);
-            mDesc.setVisibility(View.GONE);
+            mOldTitle = new StringBuilder();
+            mOldNote = new StringBuilder();
+            mOldTitle.append(title);
+            mOldNote.append(desc);
+            mTitle.setVisibility(View.GONE);
+            mNote.setVisibility(View.GONE);
             mPlainName.setVisibility(View.VISIBLE);
             mPlainNote.setVisibility(View.VISIBLE);
             mPlainName.setText(title);
@@ -169,11 +176,11 @@ public class JournalNoteActivity extends AppCompatActivity implements View.OnCli
         String mCurrentDateTime = sdf.format(now);
         DBAdapter db=new DBAdapter(this);
         db.openDB();
-        //holder.mLetter.setTextColor(Color.parseColor(colorArray[position]));
+        //holder.mLetter.setTextColor(Color.parseColor(mColorArray[position]));
         if(mPref.getBoolean("edit_mode",false)){
-            saved=db.update(name,desc,letter,mCurrentDateTime,color,mItemId);
+            saved=db.update(name,desc,letter,mCurrentDateTime, mColor,mItemId);
         }else{
-            saved=db.add(name,desc,letter,mCurrentDateTime,colorArray[new Random().nextInt(colorArray.length-1)]);
+            saved=db.add(name,desc,letter,mCurrentDateTime, mColorArray[new Random().nextInt(mColorArray.length-1)]);
         }
         //Toast.makeText(this, mCurrentMonth, Toast.LENGTH_SHORT).show();
         if(saved)
@@ -202,11 +209,26 @@ public class JournalNoteActivity extends AppCompatActivity implements View.OnCli
      * get the sData to be saved from text boxes before saving
      */
     private void preSave(){
-        String name = mName.getText().toString();
-        String desc = mDesc.getText().toString();
+        String name = mTitle.getText().toString();
+        String desc = mNote.getText().toString();
+        String oldName = mOldTitle.toString();
+        String oldDesc = mOldNote.toString();
+        mTitle.isShown();
 
-        if(name.isEmpty() && desc.isEmpty() || !name.isEmpty() && desc.isEmpty() || name.isEmpty() && !desc.isEmpty()){
+        if(!mPref.getBoolean("edit_mode",false) && name.isEmpty() && desc.isEmpty() ||
+                !mPref.getBoolean("edit_mode",false) && !name.isEmpty() && desc.isEmpty() ||
+                !mPref.getBoolean("edit_mode",false) && name.isEmpty() && !desc.isEmpty()){
             Toast.makeText(this, "Title and Note required!", Toast.LENGTH_SHORT).show();
+        }else
+        if(mPref.getBoolean("edit_mode",false) && oldName == name && oldDesc == desc){
+            Toast.makeText(this, "No change was made!", Toast.LENGTH_SHORT).show();
+        }else
+        if(mPref.getBoolean("edit_mode",false) && isTitleEdited && isNoteEdited && name.isEmpty() && desc.isEmpty() ||
+                mPref.getBoolean("edit_mode",false) && isTitleEdited && isNoteEdited && !name.isEmpty() && desc.isEmpty() ||
+                mPref.getBoolean("edit_mode",false) && isTitleEdited && !isNoteEdited && name.isEmpty() ||
+                mPref.getBoolean("edit_mode",false) && !isTitleEdited && isNoteEdited && desc.isEmpty() ||
+                mPref.getBoolean("edit_mode",false) && isTitleEdited && isNoteEdited && name.isEmpty() && !desc.isEmpty()){
+            Toast.makeText(this, "Can't leave either title or its note empty!", Toast.LENGTH_SHORT).show();
         }else{
             String letter = name.substring(0,1);
             //Toast.makeText(this, date, Toast.LENGTH_SHORT).show();
@@ -219,14 +241,16 @@ public class JournalNoteActivity extends AppCompatActivity implements View.OnCli
             preSave();
         }
         if(v == mPlainName){
-            mName.setVisibility(View.VISIBLE);
-            mName.setText(mPlainName.getText().toString());
+            mTitle.setVisibility(View.VISIBLE);
+            mTitle.setText(mPlainName.getText().toString());
             mPlainName.setVisibility(View.GONE);
+            isTitleEdited = true;
         }
         if(v == mPlainNote){
-            mDesc.setVisibility(View.VISIBLE);
-            mDesc.setText(mPlainNote.getText().toString());
+            mNote.setVisibility(View.VISIBLE);
+            mNote.setText(mPlainNote.getText().toString());
             mPlainNote.setVisibility(View.GONE);
+            isNoteEdited = true;
         }
     }
 

@@ -96,10 +96,6 @@ public class LoginActivity extends AppCompatActivity
         mSignInBtn = (SignInButton) findViewById(R.id.signInBtn);
         mSignInBtn.setOnClickListener(this);
     }
-    private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -119,9 +115,10 @@ public class LoginActivity extends AppCompatActivity
             }*/
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if(result.isSuccess()){
+                mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                mProgressBar.setVisibility(View.VISIBLE);
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-                mProgressBar.setVisibility(View.GONE);
             }else{
                 mProgressBar.setVisibility(View.GONE);
                 Toast.makeText(this, "Authentication went wrong!", Toast.LENGTH_SHORT).show();
@@ -142,6 +139,7 @@ public class LoginActivity extends AppCompatActivity
                     SharedPreferences.Editor editor = mPref.edit();
                     editor.putString("email",user.getEmail());
                     editor.apply();
+                    mProgressBar.setVisibility(View.GONE);
                     //updateUI(user);
                     Intent mIntent = new Intent(LoginActivity.this,HomeActivity.class);
                     startActivity(mIntent);
@@ -165,23 +163,12 @@ public class LoginActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String result) {
             mProgressBar.setVisibility(View.GONE);
-            //initiate recycler view function
-            //recyclerView.setItemAnimator(new DefaultItemAnimator());
-            //runAnimation(recyclerView,1);
-            //my preference
-            /*SharedPreferences mPref = getSharedPreferences("JOURNAL_NOTE_ADDED",MODE_PRIVATE);
-            SharedPreferences.Editor editor = mPref.edit();
-            //can only perform this when new note is added
-            if(mPref.getBoolean("note_added",false)) {
-                //remove the tag after loading new note
-                editor.remove("note_added");
-                editor.apply();
-            }*/
 
         }
 
         @Override
         protected void onPreExecute() {
+            mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
             mProgressBar.setVisibility(View.VISIBLE);
         }
 
@@ -193,6 +180,7 @@ public class LoginActivity extends AppCompatActivity
      * Calls the GoogleSignIn function
      */
     public void doGoogleSignIn(){
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.VISIBLE);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
