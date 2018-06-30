@@ -65,9 +65,12 @@ public class JournalNoteActivity extends AppCompatActivity implements View.OnCli
                 onBackPressed();
             }
         });
+        mOldTitle = new StringBuilder();
+        mOldNote = new StringBuilder();
         //--------Initialize the name and description of the journal
         mTitle = (AppCompatEditText)findViewById(R.id.name);
         mNote = (AppCompatEditText)findViewById(R.id.note);
+        mNote.setSingleLine(false);
         //
         mNoteLabel = (TextView) findViewById(R.id.noteLabel);
         //----------------
@@ -85,7 +88,7 @@ public class JournalNoteActivity extends AppCompatActivity implements View.OnCli
         mNoteLabel.setOnClickListener(this);
         mPlainName.setOnClickListener(this);
         mPlainNote.setOnClickListener(this);
-        //my preference
+        //retrieving data from my preference
         mPref = getSharedPreferences("JOURNAL_NOTE_ADDED",MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
         if(mPref.getBoolean("edit_mode",false)){
@@ -94,14 +97,13 @@ public class JournalNoteActivity extends AppCompatActivity implements View.OnCli
             mColor = getIntent().getStringExtra(Constants.COLOR);
             mItemId = getIntent().getIntExtra(Constants.ID,-1);
             setTitle("Update");
-            mOldTitle = new StringBuilder();
-            mOldNote = new StringBuilder();
             mOldTitle.append(title);
             mOldNote.append(desc);
             mTitle.setVisibility(View.GONE);
             mNote.setVisibility(View.GONE);
             mPlainName.setVisibility(View.VISIBLE);
             mPlainNote.setVisibility(View.VISIBLE);
+            mPlainNote.setSingleLine(false);
             mPlainName.setText(title);
             mPlainNote.setText(desc);
             mAddBtn.setText("Update");
@@ -133,6 +135,7 @@ public class JournalNoteActivity extends AppCompatActivity implements View.OnCli
         //new animation settings
         ObjectAnimator animInfoUp = ObjectAnimator.ofFloat(mInfoTextBg,"translationY",mInfoTextHeight, 0);
         animInfoUp.setDuration(200);
+        animInfoUp.setStartDelay(300);
         ObjectAnimator animInfoDown = ObjectAnimator.ofFloat(mInfoTextBg,"translationY", 0,mInfoTextHeight);
         animInfoDown.setDuration(200);
         if(flag){
@@ -209,30 +212,44 @@ public class JournalNoteActivity extends AppCompatActivity implements View.OnCli
      * get the sData to be saved from text boxes before saving
      */
     private void preSave(){
-        String name = mTitle.getText().toString();
-        String desc = mNote.getText().toString();
-        String oldName = mOldTitle.toString();
-        String oldDesc = mOldNote.toString();
-        mTitle.isShown();
+        //get the title and note values based on either edit_mode or add_mode
+        String name = (mPref.getBoolean("edit_mode",false) && isTitleEdited) ? mTitle.getText().toString() :
+                (mPref.getBoolean("edit_mode",false) && !isTitleEdited) ? mOldTitle.toString() :  mTitle.getText().toString();
+        String desc = (mPref.getBoolean("edit_mode",false) && isNoteEdited) ? mNote.getText().toString() :
+                (mPref.getBoolean("edit_mode",false) && !isNoteEdited) ? mOldNote.toString() :  mNote.getText().toString();
+        //String desc = (mPref.getBoolean("edit_mode",false) && isNoteEdited) ? mNote.getText().toString() : mOldNote.toString();
 
         if(!mPref.getBoolean("edit_mode",false) && name.isEmpty() && desc.isEmpty() ||
                 !mPref.getBoolean("edit_mode",false) && !name.isEmpty() && desc.isEmpty() ||
                 !mPref.getBoolean("edit_mode",false) && name.isEmpty() && !desc.isEmpty()){
             Toast.makeText(this, "Title and Note required!", Toast.LENGTH_SHORT).show();
         }else
-        if(mPref.getBoolean("edit_mode",false) && oldName == name && oldDesc == desc){
+        if(mPref.getBoolean("edit_mode",false) && mOldTitle.toString().equalsIgnoreCase(name)
+                && mOldNote.toString().equalsIgnoreCase(desc)){
             Toast.makeText(this, "No change was made!", Toast.LENGTH_SHORT).show();
         }else
-        if(mPref.getBoolean("edit_mode",false) && isTitleEdited && isNoteEdited && name.isEmpty() && desc.isEmpty() ||
-                mPref.getBoolean("edit_mode",false) && isTitleEdited && isNoteEdited && !name.isEmpty() && desc.isEmpty() ||
-                mPref.getBoolean("edit_mode",false) && isTitleEdited && !isNoteEdited && name.isEmpty() ||
-                mPref.getBoolean("edit_mode",false) && !isTitleEdited && isNoteEdited && desc.isEmpty() ||
-                mPref.getBoolean("edit_mode",false) && isTitleEdited && isNoteEdited && name.isEmpty() && !desc.isEmpty()){
+        if(mPref.getBoolean("edit_mode",false) && name.isEmpty() && desc.isEmpty() ||
+                mPref.getBoolean("edit_mode",false) && !name.isEmpty() && desc.isEmpty() ||
+                mPref.getBoolean("edit_mode",false) && name.isEmpty() && !desc.isEmpty()){
             Toast.makeText(this, "Can't leave either title or its note empty!", Toast.LENGTH_SHORT).show();
         }else{
-            String letter = name.substring(0,1);
             //Toast.makeText(this, date, Toast.LENGTH_SHORT).show();
-            save(name,desc,letter.toUpperCase());
+           /* if(!isTitleEdited && !isNoteEdited) {
+                String letter = mOldTitle.toString().substring(0,1);
+                save(mOldTitle.toString(), mOldNote.toString(), letter.toUpperCase());
+            }else
+            if(!isTitleEdited && isNoteEdited) {
+                String letter = mOldTitle.toString().substring(0,1);
+                save(mOldTitle.toString(), desc, letter.toUpperCase());
+            }else
+            if(isTitleEdited && !isNoteEdited) {
+                String letter = name.substring(0,1);
+                save(name, mOldNote.toString(), letter.toUpperCase());
+            }
+            else{*/
+                String letter = name.substring(0,1);
+                save(name, desc, letter.toUpperCase());
+            //}
         }
     }
     @Override
